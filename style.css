@@ -100,10 +100,12 @@ nav {
   height: 1.7rem;
   margin: 0 1rem;
   padding: 0 1rem 0 0;
-  border-right: 1px sold rgb(179, 179, 179);
+  border-right: 1px solid rgb(179, 179, 179);
 }
 
 .nav-text {
+  display: inline-flex;
+  align-items: center;
   padding: 0 0.5rem;
   font-weight: 600;
   color: rgb(179, 179, 179);
