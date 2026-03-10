@@ -1,6 +1,6 @@
 let play = document.getElementById("play");
 let progressBar = document.getElementById("progressBar");
-let audio = new Audio("audio/1.weba");
+let audio = new Audio("audio/1.mp3");
 
 play.addEventListener("click", () => {
   if (audio.paused || audio.currentTime == 0) {
@@ -26,11 +26,195 @@ progressBar.addEventListener("input", function () {
   audio.currentTime = (progressBar.value * audio.duration) / 100;
 });
 
-songs = [
+const songs = [
   {
+    id: 1,
     songName: "Song1",
-    songDes: "This is description for song1",
+    songDes: "Artist - Album",
     songImage: "image/1.jpg",
+    songPath: "audio/1.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 2,
+    songName: "Song2",
+    songDes: "Artist - Album",
+    songImage: "image/2.jpg",
+    songPath: "audio/2.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 3,
+    songName: "Song3",
+    songDes: "Artist - Album",
+    songImage: "image/3.jpg",
+    songPath: "audio/3.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 4,
+    songName: "Song4",
+    songDes: "Artist - Album",
+    songImage: "image/4.jpg",
+    songPath: "audio/4.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 5,
+    songName: "Song5",
+    songDes: "Artist - Album",
+    songImage: "image/5.jpg",
+    songPath: "audio/5.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 6,
+    songName: "Song6",
+    songDes: "Artist - Album",
+    songImage: "image/6.jpg",
+    songPath: "audio/6.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 7,
+    songName: "Song7",
+    songDes: "Artist - Album",
+    songImage: "image/7.jpg",
+    songPath: "audio/7.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 8,
+    songName: "Song8",
+    songDes: "Artist - Album",
+    songImage: "image/8.jpg",
+    songPath: "audio/8.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 9,
+    songName: "Song9",
+    songDes: "Artist - Album",
+    songImage: "image/9.jpg",
+    songPath: "audio/9.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 10,
+    songName: "Song10",
+    songDes: "Artist - Album",
+    songImage: "image/10.jpg",
+    songPath: "audio/10.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 11,
+    songName: "Song11",
+    songDes: "Artist - Album",
+    songImage: "image/11.jpg",
+    songPath: "audio/11.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 12,
+    songName: "Song12",
+    songDes: "Artist - Album",
+    songImage: "image/1.jpg",
+    songPath: "audio/12.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 13,
+    songName: "Song13",
+    songDes: "Artist - Album",
+    songImage: "image/2.jpg",
+    songPath: "audio/13.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 14,
+    songName: "Song14",
+    songDes: "Artist - Album",
+    songImage: "image/3.jpg",
+    songPath: "audio/14.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 15,
+    songName: "Song15",
+    songDes: "Artist - Album",
+    songImage: "image/4.jpg",
+    songPath: "audio/15.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 16,
+    songName: "Song16",
+    songDes: "Artist - Album",
+    songImage: "image/5.jpg",
+    songPath: "audio/16.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 17,
+    songName: "Song17",
+    songDes: "Artist - Album",
+    songImage: "image/6.jpg",
+    songPath: "audio/17.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 18,
+    songName: "Song18",
+    songDes: "Artist - Album",
+    songImage: "image/7.jpg",
+    songPath: "audio/18.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 19,
+    songName: "Song19",
+    songDes: "Artist - Album",
+    songImage: "image/8.jpg",
+    songPath: "audio/19.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 20,
+    songName: "Song20",
+    songDes: "Artist - Album",
+    songImage: "image/9.jpg",
+    songPath: "audio/20.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 21,
+    songName: "Song21",
+    songDes: "Artist - Album",
+    songImage: "image/10.jpg",
+    songPath: "audio/21.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 22,
+    songName: "Song22",
+    songDes: "Artist - Album",
+    songImage: "image/11.jpg",
+    songPath: "audio/22.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 23,
+    songName: "Song23",
+    songDes: "Artist - Album",
+    songImage: "image/1.jpg",
+    songPath: "audio/23.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 24,
+    songName: "Song24",
+    songDes: "Artist - Album",
+    songImage: "image/2.jpg",
+    songPath: "audio/24.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 25,
+    songName: "Song25",
+    songDes: "Artist - Album",
+    songImage: "image/3.jpg",
+    songPath: "audio/25.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 26,
+    songName: "Song26",
+    songDes: "Artist - Album",
+    songImage: "image/4.jpg",
+    songPath: "audio/26.mp3", // ✅ Use .mp3
+  },
+  {
+    id: 27,
+    songName: "Song27",
+    songDes: "Artist - Album",
+    songImage: "image/5.jpg",
+    songPath: "audio/27.mp3", // ✅ Use .mp3
   },
 ];
 
@@ -43,14 +227,21 @@ const makeAllPlay = () => {
   });
 };
 
-playMusic.forEach((element) => {
+playMusic.forEach((element, i) => {
+  element.id = i;
+
   element.addEventListener("click", (e) => {
     makeAllPlay();
-    e.target.classList.toggle("fa-circle-play");
-    e.target.classList.toggle("fa-circle-pause");
 
-    index = parseInt(e.target.id);
-    audio.src = `audio/${index}.weba`;
+    // ✅ Toggle only the clicked element
+    e.target.classList.remove("fa-circle-play");
+    e.target.classList.add("fa-circle-pause");
+    play.classList.remove("fa-circle-play");
+    play.classList.add("fa-circle-pause");
+
+    let index = parseInt(e.target.id);
+    audio.src = `audio/${index + 1}.mp3`;
     audio.currentTime = 0;
+    audio.play();
   });
 });
