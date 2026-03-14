@@ -365,3 +365,13 @@ input[type="range"]::-webkit-slider-thumb {
   color: rgb(192, 192, 192);
   margin-left: 1rem;
 }
+
+.player-btns.active {
+  color: #1db954 !important;
+}
+.player-btns.active:hover {
+  color: #1ed760 !important;
+}
+#repeat.repeat-one {
+  font-size: 1.4rem;
+}

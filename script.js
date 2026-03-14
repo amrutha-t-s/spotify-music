@@ -3,6 +3,10 @@ let progressBar = document.getElementById("progressBar");
 let audio = new Audio("audio/1.mp3");
 
 let currentSong = 1;
+// Add these variables after your existing 'currentSong = 1;'
+let isShuffle = false;
+let repeatMode = 0; // 0:off, 1:all, 2:single
+let shuffledQueue = [];
 
 play.addEventListener("click", () => {
   if (audio.paused || audio.currentTime == 0) {
@@ -249,8 +253,14 @@ playMusic.forEach((element, i) => {
 });
 
 playNextSong = () => {
-  let nextSong = (currentSong + 1) % playMusic.length;
-  currentSong = nextSong == 0 ? 18 : nextSong;
+  if (isShuffle && shuffledQueue.length > 0) {
+    currentSong = shuffledQueue.shift();
+    if (shuffledQueue.length === 0)
+      shuffledQueue = shuffleArray([...Array(27).keys()].map((i) => i + 1));
+  } else {
+    let nextSong = (currentSong + 1) % playMusic.length;
+    currentSong = nextSong == 0 ? 27 : nextSong;
+  }
   audio.src = `audio/${currentSong}.mp3`;
   audio.currentTime = 0;
   audio.play();
@@ -271,10 +281,36 @@ forward.addEventListener("click", () => {
   playNextSong();
 });
 
+// REPLACE your audio.ended listener with this:
 audio.addEventListener("ended", () => {
+  if (repeatMode === 2) return; // Single repeat
   playNextSong();
 });
 
 backward.addEventListener("click", () => {
   playPrevSong();
+});
+
+// Add shuffle function
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+// Add these event listeners AFTER your existing code
+document.getElementById("shuffle").addEventListener("click", () => {
+  isShuffle = !isShuffle;
+  document.getElementById("shuffle").classList.toggle("active");
+  if (isShuffle) {
+    shuffledQueue = shuffleArray([...Array(27).keys()].map((i) => i + 1));
+  } else {
+    shuffledQueue = [];
+  }
+});
+
+document.getElementById("repeat").addEventListener("click", () => {
+  repeatMode = (repeatMode + 1) % 3;
+  let repeatBtn = document.getElementById("repeat");
+  repeatBtn.classList.toggle("active", repeatMode !== 0);
+  repeatBtn.classList.toggle("repeat-one", repeatMode === 2);
+  audio.loop = repeatMode === 2;
 });
