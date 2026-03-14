@@ -3,7 +3,7 @@ let progressBar = document.getElementById("progressBar");
 let audio = new Audio("audio/1.mp3");
 
 let currentSong = 1;
-// Add these variables after your existing 'currentSong = 1;'
+// Shuffle & Repeat variables
 let isShuffle = false;
 let repeatMode = 0; // 0:off, 1:all, 2:single
 let shuffledQueue = [];
@@ -13,6 +13,12 @@ play.addEventListener("click", () => {
     audio.play();
     play.classList.remove("fa-circle-play");
     play.classList.add("fa-circle-pause");
+
+    // Update song info display
+    document.getElementById("nowPlayingImg").src = `image/${currentSong}.jpg`;
+    document.getElementById("nowPlayingTitle").textContent =
+      `Song ${currentSong}`;
+    document.getElementById("nowPlayingDesc").textContent = "Artist - Album";
   } else {
     audio.pause();
     play.classList.remove("fa-circle-pause");
@@ -21,15 +27,19 @@ play.addEventListener("click", () => {
 });
 
 audio.addEventListener("timeupdate", () => {
-  let progress = (audio.currentTime / audio.duration) * 100;
-  progressBar.value = progress;
-  progressBar.style.background = `linear-gradient(to right, #177200ff ${progress}%, #333 ${progress}%)`;
+  if (!isNaN(audio.duration)) {
+    let progress = (audio.currentTime / audio.duration) * 100;
+    progressBar.value = progress;
+    progressBar.style.background = `linear-gradient(to right, #177200ff ${progress}%, #333 ${progress}%)`;
+  }
 });
 
 progressBar.addEventListener("input", function () {
   let value = this.value;
   this.style.background = `linear-gradient(to right, #177200ff ${value}%, #333 ${value}%)`;
-  audio.currentTime = (progressBar.value * audio.duration) / 100;
+  if (!isNaN(audio.duration)) {
+    audio.currentTime = (progressBar.value * audio.duration) / 100;
+  }
 });
 
 const songs = [
@@ -235,22 +245,32 @@ const makeAllPlay = () => {
 
 playMusic.forEach((element, i) => {
   element.id = i;
-
   element.addEventListener("click", (e) => {
     makeAllPlay();
-
     e.target.classList.remove("fa-circle-play");
     e.target.classList.add("fa-circle-pause");
     play.classList.remove("fa-circle-play");
     play.classList.add("fa-circle-pause");
 
     let index = parseInt(e.target.id);
-    currentSong = index;
-    audio.src = `audio/${index + 1}.mp3`;
+    currentSong = index + 1; // Fix: index starts at 0, songs at 1
+
+    // Update song info display
+    document.getElementById("nowPlayingImg").src = songs[index].songImage;
+    document.getElementById("nowPlayingTitle").textContent =
+      songs[index].songName;
+    document.getElementById("nowPlayingDesc").textContent =
+      songs[index].songDes;
+
+    audio.src = songs[index].songPath;
     audio.currentTime = 0;
     audio.play();
   });
 });
+
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
 playNextSong = () => {
   if (isShuffle && shuffledQueue.length > 0) {
@@ -258,18 +278,35 @@ playNextSong = () => {
     if (shuffledQueue.length === 0)
       shuffledQueue = shuffleArray([...Array(27).keys()].map((i) => i + 1));
   } else {
-    let nextSong = (currentSong + 1) % playMusic.length;
-    currentSong = nextSong == 0 ? 27 : nextSong;
+    let nextSong = (currentSong % 27) + 1;
+    currentSong = nextSong;
   }
-  audio.src = `audio/${currentSong}.mp3`;
+
+  // Update song info display
+  let songIndex = currentSong - 1;
+  document.getElementById("nowPlayingImg").src = songs[songIndex].songImage;
+  document.getElementById("nowPlayingTitle").textContent =
+    songs[songIndex].songName;
+  document.getElementById("nowPlayingDesc").textContent =
+    songs[songIndex].songDes;
+
+  audio.src = songs[songIndex].songPath;
   audio.currentTime = 0;
   audio.play();
 };
 
 playPrevSong = () => {
-  let prevSong = currentSong - 1;
-  currentSong = prevSong == 0 ? 18 : prevSong;
-  audio.src = `audio/${currentSong}.mp3`;
+  currentSong = currentSong === 1 ? 27 : currentSong - 1;
+
+  // Update song info display
+  let songIndex = currentSong - 1;
+  document.getElementById("nowPlayingImg").src = songs[songIndex].songImage;
+  document.getElementById("nowPlayingTitle").textContent =
+    songs[songIndex].songName;
+  document.getElementById("nowPlayingDesc").textContent =
+    songs[songIndex].songDes;
+
+  audio.src = songs[songIndex].songPath;
   audio.currentTime = 0;
   audio.play();
 };
@@ -281,7 +318,6 @@ forward.addEventListener("click", () => {
   playNextSong();
 });
 
-// REPLACE your audio.ended listener with this:
 audio.addEventListener("ended", () => {
   if (repeatMode === 2) return; // Single repeat
   playNextSong();
@@ -291,12 +327,7 @@ backward.addEventListener("click", () => {
   playPrevSong();
 });
 
-// Add shuffle function
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-// Add these event listeners AFTER your existing code
+// Shuffle functionality
 document.getElementById("shuffle").addEventListener("click", () => {
   isShuffle = !isShuffle;
   document.getElementById("shuffle").classList.toggle("active");
@@ -307,6 +338,7 @@ document.getElementById("shuffle").addEventListener("click", () => {
   }
 });
 
+// Repeat functionality
 document.getElementById("repeat").addEventListener("click", () => {
   repeatMode = (repeatMode + 1) % 3;
   let repeatBtn = document.getElementById("repeat");
